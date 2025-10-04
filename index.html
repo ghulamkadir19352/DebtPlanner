@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Debt Dashboard</title>
-
     <style>
 :root {
     --primary-color: #3498db;
@@ -14,6 +13,7 @@
     --light-bg: #f8f9fa;
     --border-color: #dee2e6;
     --text-color: #333;
+    --text-light: #6c757d;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -67,22 +67,25 @@ h1 {
     position: relative;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     background: white;
     border-radius: 8px;
     padding: 20px;
     box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     min-height: 100px;
+    cursor: pointer;
 }
 
 .debt-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .debt-content {
     flex: 1;
     margin-right: 15px;
+    min-width: 0;
 }
 
 .debt-logo {
@@ -115,6 +118,7 @@ h1 {
     font-size: 1.5rem;
     font-weight: bold;
     color: var(--danger-color);
+    transition: color 0.3s ease;
 }
 
 .settings-btn {
@@ -184,7 +188,9 @@ label {
 
 input[type="text"],
 input[type="password"],
-input[type="number"] {
+input[type="number"],
+input[type="date"],
+input[type="color"] {
     width: 100%;
     padding: 10px;
     border: 1px solid var(--border-color);
@@ -277,7 +283,6 @@ textarea {
     resize: vertical;
     min-height: 80px;
 }
-
 
 .btn-group {
     display: flex;
@@ -388,10 +393,6 @@ textarea {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
-
-
-
 
 /* Remove number input spinners */
 .amount-input,
@@ -549,8 +550,6 @@ input[type="number"]::-webkit-inner-spin-button {
     transform: scale(1.1);
 }
 
-
-
 /* Regular increment styles */
 .regular-increment-section {
     margin-top: 15px;
@@ -639,26 +638,6 @@ input[type="number"]::-webkit-inner-spin-button {
     transition: color 0.3s ease;
 }
 
-/* Card layout improvements */
-.debt-card {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
-    min-height: 100px;
-}
-
-.debt-content {
-    flex: 1;
-    margin-right: 15px;
-    min-width: 0;
-}
-
 .debt-meta-info {
     margin-top: 8px;
     font-size: 0.8rem;
@@ -675,52 +654,6 @@ input[type="number"]::-webkit-inner-spin-button {
     border-radius: 12px;
     font-size: 0.75rem;
     margin-top: 4px;
-}
-
-/* Improved Icon Button Styles */
-.icon-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    font-size: 1.1rem;
-    width: 32px;
-    height: 32px;
-}
-
-.update-btn {
-    color: var(--primary-color);
-    background-color: rgba(52, 152, 219, 0.1);
-}
-
-.update-btn:hover {
-    background-color: rgba(52, 152, 219, 0.2);
-    transform: scale(1.1);
-}
-
-.edit-btn-icon {
-    color: var(--success-color);
-    background-color: rgba(46, 204, 113, 0.1);
-}
-
-.edit-btn-icon:hover {
-    background-color: rgba(46, 204, 113, 0.2);
-    transform: scale(1.1);
-}
-
-.delete-btn-icon {
-    color: var(--danger-color);
-    background-color: rgba(231, 76, 60, 0.1);
-}
-
-.delete-btn-icon:hover {
-    background-color: rgba(231, 76, 60, 0.2);
-    transform: scale(1.1);
 }
 
 /* Improved Debt Actions Layout */
@@ -748,90 +681,16 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 0.9rem;
 }
 
-/* Regular Increment Styles */
-.regular-increment-section {
-    margin-top: 15px;
-    padding: 15px;
-    background-color: var(--light-bg);
-    border-radius: 6px;
-    border-left: 4px solid var(--primary-color);
-}
-
-.increment-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 15px;
-    cursor: pointer;
-}
-
-.increment-toggle input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-}
-
-.increment-toggle label {
-    margin-bottom: 0;
-    font-weight: 600;
-    color: var(--secondary-color);
-    cursor: pointer;
-}
-
-.increment-fields {
-    display: none;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.increment-fields.active {
-    display: flex;
-    animation: fadeIn 0.3s ease;
-}
-
-.increment-field {
-    flex: 1;
-    min-width: 150px;
-}
-
 .increment-field.full-width {
     flex: 0 0 100%;
 }
 
-.increment-field label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.increment-amount-input,
-.increment-frequency-select,
 .increment-date-input {
     width: 100%;
     padding: 8px 10px;
     border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 0.9rem;
-}
-
-.increment-preview {
-    margin-top: 10px;
-    padding: 8px 12px;
-    background-color: white;
-    border-radius: 4px;
-    border: 1px solid var(--border-color);
-    font-size: 0.85rem;
-    color: var(--text-color);
-}
-
-.increment-preview .next-increment {
-    color: var(--primary-color);
-    font-weight: 600;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Export/Import Styles */
@@ -869,54 +728,69 @@ input[type="number"]::-webkit-inner-spin-button {
     display: none;
 }
 
-/* Amount styling */
-.debt-amount {
-    font-size: 1.5rem;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-/* Card layout improvements */
-.debt-card {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
+/* Notification styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background-color: var(--success-color);
+    color: white;
+    border-radius: 5px;
     box-shadow: var(--shadow);
+    z-index: 1002;
+    transform: translateX(150%);
     transition: transform 0.3s ease;
-    min-height: 100px;
 }
 
-.debt-content {
-    flex: 1;
-    margin-right: 15px;
-    min-width: 0;
+.notification.show {
+    transform: translateX(0);
 }
 
-.debt-meta-info {
-    margin-top: 8px;
-    font-size: 0.8rem;
-    color: var(--text-light);
+.notification.error {
+    background-color: var(--danger-color);
 }
 
-.increment-indicator {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    background-color: rgba(46, 204, 113, 0.1);
-    color: var(--success-color);
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    margin-top: 4px;
+.notification.info {
+    background-color: var(--primary-color);
 }
 
-</style>
-
-
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+    
+    .debt-display {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .debt-actions {
+        align-self: flex-end;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        width: 95%;
+    }
+    
+    .radio-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+    </style>
 </head>
 <body>
     <div class="container">
@@ -1028,8 +902,7 @@ input[type="number"]::-webkit-inner-spin-button {
                     <!-- Existing debts will be listed here -->
                 </div>
 
-
-                           <!-- Add this Export/Import section to your settings modal -->
+                <!-- Export/Import section -->
                 <div class="export-import-section">
                     <h3>Data Management</h3>
                      <p>Export your data to a JSON file for backup or transfer to another machine.</p>
@@ -1042,441 +915,476 @@ input[type="number"]::-webkit-inner-spin-button {
                      Exported file includes all debt data, logos (as base64), and settings.
                     </small>
                 </div>
-
-
             </div>
         </div>
     </div>
 
-    
+    <!-- Notes Popup -->
+    <div class="notes-popup-overlay" id="notesOverlay"></div>
+    <div class="notes-popup" id="notesPopup">
+        <h3 id="notesTitle">Notes</h3>
+        <div class="notes-content" id="notesContent"></div>
+        <div class="btn-group">
+            <button class="btn btn-secondary" id="closeNotes">Close</button>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
 <script>
     // Debt Dashboard Application
-let debts = [];
-let logoFile = null;
+    let debts = [];
+    let logoFile = null;
+    let autoRefreshInterval = null;
+    let lastRefreshTime = null;
 
-// DOM Elements
-const debtDashboard = document.getElementById('debtDashboard');
-const settingsBtn = document.getElementById('settingsBtn');
-const settingsModal = document.getElementById('settingsModal');
-const closeModal = document.getElementById('closeModal');
-const cancelBtn = document.getElementById('cancelBtn');
-const debtForm = document.getElementById('debtForm');
-const debtList = document.getElementById('debtList');
-const autoSource = document.getElementById('autoSource');
-const manualSource = document.getElementById('manualSource');
-const autoFields = document.getElementById('autoFields');
-const manualFields = document.getElementById('manualFields');
-const totalDebtElement = document.querySelector('.total-debt');
-const exportBtn = document.getElementById('exportBtn');
-const importBtn = document.getElementById('importBtn');
-const importFile = document.getElementById('importFile');
+    // DOM Elements
+    const debtDashboard = document.getElementById('debtDashboard');
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsModal = document.getElementById('settingsModal');
+    const closeModal = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const debtForm = document.getElementById('debtForm');
+    const debtList = document.getElementById('debtList');
+    const autoSource = document.getElementById('autoSource');
+    const manualSource = document.getElementById('manualSource');
+    const autoFields = document.getElementById('autoFields');
+    const manualFields = document.getElementById('manualFields');
+    const totalDebtElement = document.querySelector('.total-debt');
+    const exportBtn = document.getElementById('exportBtn');
+    const importBtn = document.getElementById('importBtn');
+    const importFile = document.getElementById('importFile');
+    const refreshInfo = document.getElementById('refreshInfo');
+    const lastRefreshTimeElement = document.getElementById('lastRefreshTime');
+    const nextRefreshTimeElement = document.getElementById('nextRefreshTime');
+    const notesPopup = document.getElementById('notesPopup');
+    const notesOverlay = document.getElementById('notesOverlay');
+    const notesTitle = document.getElementById('notesTitle');
+    const notesContent = document.getElementById('notesContent');
+    const closeNotes = document.getElementById('closeNotes');
+    const notification = document.getElementById('notification');
 
-// Initialize the dashboard
-function initDashboard() {
-    loadDataFromJSON(); // Try to load from JSON first
-    if (debts.length === 0) {
-        debts = loadDebtsFromLocalStorage(); // Fallback to localStorage
-    }
-    renderDebtCards();
-    updateTotalDebt();
-    renderDebtList();
-    processRegularIncrements();
-    startAutoRefresh();
-}
-
-// Load data from JSON file (primary storage)
-async function loadDataFromJSON() {
-    try {
-        const response = await fetch('debts.json');
-        if (response.ok) {
-            const data = await response.json();
-            if (data && Array.isArray(data.debts)) {
-                debts = data.debts;
-                console.log('Data loaded from JSON file');
-                return true;
-            }
+    // Initialize the dashboard
+    function initDashboard() {
+        loadDataFromJSON(); // Try to load from JSON first
+        if (debts.length === 0) {
+            debts = loadDebtsFromLocalStorage(); // Fallback to localStorage
         }
-    } catch (error) {
-        console.log('No JSON file found, using localStorage');
-    }
-    return false;
-}
-
-// Save data to JSON file
-async function saveDataToJSON() {
-    const data = {
-        debts: debts,
-        exportDate: new Date().toISOString(),
-        version: '1.0'
-    };
-    
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'debts_export.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-
-// Import data from JSON file
-function importDataFromJSON(file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const data = JSON.parse(e.target.result);
-            if (data && Array.isArray(data.debts)) {
-                debts = data.debts;
-                saveDebtsToLocalStorage();
-                renderDebtCards();
-                updateTotalDebt();
-                renderDebtList();
-                showRefreshNotification('Data imported successfully!');
-            } else {
-                alert('Invalid JSON file format');
-            }
-        } catch (error) {
-            alert('Error reading JSON file: ' + error.message);
-        }
-    };
-    reader.readAsText(file);
-}
-
-// Render debt cards
-function renderDebtCards() {
-    debtDashboard.innerHTML = '';
-    
-    debts.forEach(debt => {
-        const debtCard = document.createElement('div');
-        debtCard.className = 'debt-card';
-        
-        let incrementInfo = '';
-        if (debt.regularIncrement && debt.regularIncrement.enabled) {
-            const nextIncrement = calculateNextIncrement(debt);
-            incrementInfo = `
-                <div class="increment-indicator">
-                    ↗️ +£${debt.regularIncrement.amount} ${debt.regularIncrement.frequency}
-                    ${nextIncrement ? `· Next: ${nextIncrement}` : ''}
-                </div>
-            `;
-        }
-        
-        debtCard.innerHTML = `
-            <div class="debt-content">
-                <div class="debt-title">
-                    <div class="debt-name ${debt.direct_link ? 'clickable' : ''}" style="color: ${debt.titleColor || 'var(--secondary-color)'}">${debt.name}</div>
-                    ${debt.notes ? `<span class="info-icon" data-id="${debt.id}">ℹ️</span>` : ''}
-                </div>
-                <div class="debt-amount" style="color: ${debt.titleColor || 'var(--danger-color)'}">£${debt.amount.toFixed(2)}</div>
-                ${incrementInfo}
-                ${debt.notes ? `<div class="debt-meta-info">${debt.notes.substring(0, 50)}${debt.notes.length > 50 ? '...' : ''}</div>` : ''}
-            </div>
-            ${debt.logoImage ? `<img src="${debt.logoImage}" alt="${debt.name} logo" class="debt-logo">` : ''}
-        `;
-
-        if (debt.cardColor && debt.cardColor !== '#ffffff') {
-            debtCard.style.backgroundColor = debt.cardColor;
-        }
-
-        if (debt.direct_link) {
-            const debtName = debtCard.querySelector('.debt-name.clickable');
-            debtName.addEventListener('click', (e) => {
-                e.stopPropagation();
-                window.open(debt.direct_link, '_blank');
-            });
-        }
-
-        debtDashboard.appendChild(debtCard);
-    });
-    
-    document.querySelectorAll('.info-icon').forEach(icon => {
-        icon.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const id = parseInt(icon.getAttribute('data-id'));
-            showNotesPopup(id);
-        });
-    });
-}
-
-// Update total debt display
-function updateTotalDebt() {
-    const total = debts.reduce((sum, debt) => sum + debt.amount, 0);
-    totalDebtElement.textContent = `Total: £${total.toFixed(2)}`;
-}
-
-// Update debt amount
-function updateDebtAmount(id, newAmount) {
-    const debt = debts.find(d => d.id === id);
-    if (debt) {
-        debt.amount = newAmount;
-        saveDebtsToLocalStorage();
         renderDebtCards();
         updateTotalDebt();
-        showRefreshNotification(`Updated ${debt.name} to £${newAmount.toFixed(2)}`);
+        renderDebtList();
+        processRegularIncrements();
+        startAutoRefresh();
+        showNotification('Dashboard loaded successfully!', 'success');
     }
-}
 
-// Render debt list in settings
-function renderDebtList() {
-    debtList.innerHTML = '';
-    
-    if (debts.length === 0) {
-        debtList.innerHTML = '<p>No debts configured yet.</p>';
-        return;
-    }
-    
-    debts.forEach(debt => {
-        const debtItem = document.createElement('div');
-        debtItem.className = 'debt-item';
-        
-        const hasIncrement = debt.regularIncrement && debt.regularIncrement.enabled;
-        const incrementFieldsDisplay = hasIncrement ? 'flex' : 'none';
-        const incrementChecked = hasIncrement ? 'checked' : '';
-        const startDate = debt.regularIncrement?.startDate || new Date().toISOString().split('T')[0];
-        
-        debtItem.innerHTML = `
-            <div class="debt-display">
-                <div class="debt-info">
-                    <strong>${debt.name}</strong>
-                    <div class="debt-amount-controls">
-                        <span class="amount-label">Amount: £</span>
-                        <input type="number" class="amount-input" value="${debt.amount.toFixed(2)}" step="0.01" data-id="${debt.id}">
-                        <button class="icon-btn update-btn" data-id="${debt.id}" title="Update Amount">🔄</button>
-                    </div>
-                    <div class="debt-meta">
-                        <span class="debt-source">${debt.source === 'manual' ? 'Manual' : 'Automated'}</span>
-                        ${debt.source === 'auto' ? `<span class="debt-url">${debt.login_url || 'No URL'}</span>` : ''}
-                        ${hasIncrement ? `<span class="increment-indicator" style="margin: 0;">+£${debt.regularIncrement.amount} ${debt.regularIncrement.frequency}</span>` : ''}
-                    </div>
-                </div>
-                <div class="debt-actions">
-                    <button class="icon-btn edit-btn-icon" data-id="${debt.id}" title="Edit Debt">✏️</button>
-                    <button class="icon-btn delete-btn-icon" data-id="${debt.id}" title="Delete Debt">🗑️</button>
-                </div>
-            </div>
-            <div class="debt-edit-form" id="edit-form-${debt.id}" style="display: none;">
-                <div class="edit-form-content">
-                    <h4>Edit ${debt.name}</h4>
-                    <form class="edit-debt-form" data-id="${debt.id}">
-                        <!-- Existing form fields remain the same -->
-                        <div class="form-group">
-                            <label for="edit-name-${debt.id}">Debt Name</label>
-                            <input type="text" id="edit-name-${debt.id}" value="${debt.name}" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Data Source</label>
-                            <div class="radio-group">
-                                <div class="radio-option">
-                                    <input type="radio" id="edit-auto-${debt.id}" name="edit-dataSource-${debt.id}" value="auto" ${debt.source === 'auto' ? 'checked' : ''}>
-                                    <label for="edit-auto-${debt.id}">Automated (Selenium)</label>
-                                </div>
-                                <div class="radio-option">
-                                    <input type="radio" id="edit-manual-${debt.id}" name="edit-dataSource-${debt.id}" value="manual" ${debt.source === 'manual' ? 'checked' : ''}>
-                                    <label for="edit-manual-${debt.id}">Manual Entry</label>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="edit-auto-fields" id="edit-auto-fields-${debt.id}" style="${debt.source === 'auto' ? '' : 'display: none;'}">
-                            <div class="form-group">
-                                <label for="edit-loginUrl-${debt.id}">Login URL</label>
-                                <input type="text" id="edit-loginUrl-${debt.id}" value="${debt.login_url || ''}">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="edit-username-${debt.id}">Username</label>
-                                <input type="text" id="edit-username-${debt.id}" value="${debt.username || ''}">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="edit-password-${debt.id}">Password</label>
-                                <input type="password" id="edit-password-${debt.id}" value="" placeholder="Enter new password">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group edit-manual-amount" id="edit-manual-fields-${debt.id}" style="${debt.source === 'manual' ? '' : 'display: none;'}">
-                            <label for="edit-amount-${debt.id}">Amount (£)</label>
-                            <input type="number" id="edit-amount-${debt.id}" value="${debt.amount}" step="0.01" class="no-spinner">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit-directLink-${debt.id}">Direct Link</label>
-                            <input type="text" id="edit-directLink-${debt.id}" value="${debt.direct_link || ''}" placeholder="https://...">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit-notes-${debt.id}">Notes</label>
-                            <textarea id="edit-notes-${debt.id}" rows="3">${debt.notes || ''}</textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit-cardColor-${debt.id}">Card Color</label>
-                            <input type="color" id="edit-cardColor-${debt.id}" value="${debt.cardColor || '#ffffff'}">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit-titleColor-${debt.id}">Title Color</label>
-                            <input type="color" id="edit-titleColor-${debt.id}" value="${debt.titleColor || '#2c3e50'}">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="edit-logoImage-${debt.id}">Logo Image</label>
-                            <input type="file" id="edit-logoImage-${debt.id}" accept="image/*">
-                            ${debt.logoImage ? '<small style="color: var(--success-color);">Current image loaded</small>' : ''}
-                        </div>
-
-                        <!-- Updated Regular Increment Section -->
-                        <div class="regular-increment-section">
-                            <div class="increment-toggle">
-                                <input type="checkbox" id="edit-regularIncrement-${debt.id}" ${incrementChecked}>
-                                <label for="edit-regularIncrement-${debt.id}">Enable Regular Amount Increment</label>
-                            </div>
-                            <div class="increment-fields ${hasIncrement ? 'active' : ''}" id="edit-increment-fields-${debt.id}">
-                                <div class="increment-field">
-                                    <label for="edit-incrementAmount-${debt.id}">Increment Amount (£)</label>
-                                    <input type="number" id="edit-incrementAmount-${debt.id}" class="increment-amount-input" value="${hasIncrement ? debt.regularIncrement.amount : '0'}" step="0.01" min="0">
-                                </div>
-                                <div class="increment-field">
-                                    <label for="edit-incrementFrequency-${debt.id}">Frequency</label>
-                                    <select id="edit-incrementFrequency-${debt.id}" class="increment-frequency-select">
-                                        <option value="weekly" ${hasIncrement && debt.regularIncrement.frequency === 'weekly' ? 'selected' : ''}>Weekly</option>
-                                        <option value="fortnightly" ${hasIncrement && debt.regularIncrement.frequency === 'fortnightly' ? 'selected' : ''}>Fortnightly</option>
-                                        <option value="triweekly" ${hasIncrement && debt.regularIncrement.frequency === 'triweekly' ? 'selected' : ''}>Tri-weekly</option>
-                                        <option value="monthly" ${hasIncrement && debt.regularIncrement.frequency === 'monthly' ? 'selected' : ''}>Monthly</option>
-                                    </select>
-                                </div>
-                                <div class="increment-field full-width">
-                                    <label for="edit-incrementStartDate-${debt.id}">Start Date</label>
-                                    <input type="date" id="edit-incrementStartDate-${debt.id}" class="increment-date-input" value="${startDate}">
-                                </div>
-                            </div>
-                            ${hasIncrement ? `
-                                <div class="increment-preview">
-                                    Next increment: <span class="next-increment">${calculateNextIncrement(debt)}</span>
-                                </div>
-                            ` : ''}
-                        </div>
-
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-secondary cancel-edit-btn" data-id="${debt.id}">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        `;
-        debtList.appendChild(debtItem);
-    });
-    
-    // Add event listeners
-    document.querySelectorAll('.update-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = parseInt(this.getAttribute('data-id'));
-            const input = document.querySelector(`.amount-input[data-id="${id}"]`);
-            const newAmount = parseFloat(input.value) || 0;
-            updateDebtAmount(id, newAmount);
-        });
-    });
-    
-    document.querySelectorAll('.edit-btn-icon').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = parseInt(this.getAttribute('data-id'));
-            toggleEditForm(id);
-        });
-    });
-    
-    document.querySelectorAll('.cancel-edit-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = parseInt(this.getAttribute('data-id'));
-            toggleEditForm(id, false);
-        });
-    });
-    
-    document.querySelectorAll('.edit-debt-form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const id = parseInt(this.getAttribute('data-id'));
-            saveDebtChanges(id);
-        });
-    });
-    
-    document.querySelectorAll('input[name^="edit-dataSource-"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            const id = this.id.split('-')[2];
-            toggleEditDataSource(id);
-        });
-    });
-    
-    document.querySelectorAll('.delete-btn-icon').forEach(button => {
-        button.addEventListener('click', function() {
-            const id = parseInt(this.getAttribute('data-id'));
-            deleteDebt(id);
-        });
-    });
-    
-    // Fix: Add immediate toggle for increment fields
-    document.querySelectorAll('.increment-toggle input[type="checkbox"]').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const id = this.id.split('-')[3];
-            const incrementFields = document.getElementById(`edit-increment-fields-${id}`);
-            if (this.checked) {
-                incrementFields.classList.add('active');
-            } else {
-                incrementFields.classList.remove('active');
+    // Load data from JSON file (primary storage)
+    async function loadDataFromJSON() {
+        try {
+            const response = await fetch('debts.json');
+            if (response.ok) {
+                const data = await response.json();
+                if (data && Array.isArray(data.debts)) {
+                    debts = data.debts;
+                    console.log('Data loaded from JSON file');
+                    return true;
+                }
             }
-        });
-    });
-}
+        } catch (error) {
+            console.log('No JSON file found, using localStorage');
+        }
+        return false;
+    }
 
-// Calculate next increment date
-function calculateNextIncrement(debt) {
-    if (!debt.regularIncrement || !debt.regularIncrement.enabled) return null;
-    
-    const startDate = new Date(debt.regularIncrement.startDate || debt.regularIncrement.lastIncrement || new Date());
-    const now = new Date();
-    let nextDate = new Date(startDate);
-    
-    while (nextDate <= now) {
-        switch (debt.regularIncrement.frequency) {
-            case 'weekly':
-                nextDate.setDate(nextDate.getDate() + 7);
-                break;
-            case 'fortnightly':
-                nextDate.setDate(nextDate.getDate() + 14);
-                break;
-            case 'triweekly':
-                nextDate.setDate(nextDate.getDate() + 21);
-                break;
-            case 'monthly':
-                nextDate.setMonth(nextDate.getMonth() + 1);
-                break;
+    // Save data to JSON file
+    async function saveDataToJSON() {
+        const data = {
+            debts: debts,
+            exportDate: new Date().toISOString(),
+            version: '1.0'
+        };
+        
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'debts_export.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showNotification('Data exported successfully!', 'success');
+    }
+
+    // Import data from JSON file
+    function importDataFromJSON(file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                if (data && Array.isArray(data.debts)) {
+                    debts = data.debts;
+                    saveDebtsToLocalStorage();
+                    renderDebtCards();
+                    updateTotalDebt();
+                    renderDebtList();
+                    showNotification('Data imported successfully!', 'success');
+                } else {
+                    showNotification('Invalid JSON file format', 'error');
+                }
+            } catch (error) {
+                showNotification('Error reading JSON file: ' + error.message, 'error');
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    // Render debt cards
+    function renderDebtCards() {
+        debtDashboard.innerHTML = '';
+        
+        if (debts.length === 0) {
+            debtDashboard.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; padding: 40px; color: var(--text-light);">No debts configured yet. Click Settings to add your first debt.</p>';
+            return;
+        }
+        
+        debts.forEach(debt => {
+            const debtCard = document.createElement('div');
+            debtCard.className = 'debt-card';
+            
+            let incrementInfo = '';
+            if (debt.regularIncrement && debt.regularIncrement.enabled) {
+                const nextIncrement = calculateNextIncrement(debt);
+                incrementInfo = `
+                    <div class="increment-indicator">
+                        ↗️ +£${debt.regularIncrement.amount} ${debt.regularIncrement.frequency}
+                        ${nextIncrement ? `· Next: ${nextIncrement}` : ''}
+                    </div>
+                `;
+            }
+            
+            debtCard.innerHTML = `
+                <div class="debt-content">
+                    <div class="debt-title">
+                        <div class="debt-name ${debt.direct_link ? 'clickable' : ''}" style="color: ${debt.titleColor || 'var(--secondary-color)'}">${debt.name}</div>
+                        ${debt.notes ? `<span class="info-icon" data-id="${debt.id}">ℹ️</span>` : ''}
+                    </div>
+                    <div class="debt-amount" style="color: ${debt.titleColor || 'var(--danger-color)'}">£${debt.amount.toFixed(2)}</div>
+                    ${incrementInfo}
+                    ${debt.notes ? `<div class="debt-meta-info">${debt.notes.substring(0, 50)}${debt.notes.length > 50 ? '...' : ''}</div>` : ''}
+                </div>
+                ${debt.logoImage ? `<img src="${debt.logoImage}" alt="${debt.name} logo" class="debt-logo">` : ''}
+            `;
+
+            if (debt.cardColor && debt.cardColor !== '#ffffff') {
+                debtCard.style.backgroundColor = debt.cardColor;
+            }
+
+            if (debt.direct_link) {
+                const debtName = debtCard.querySelector('.debt-name.clickable');
+                debtName.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    window.open(debt.direct_link, '_blank');
+                });
+            }
+
+            debtDashboard.appendChild(debtCard);
+        });
+        
+        document.querySelectorAll('.info-icon').forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(icon.getAttribute('data-id'));
+                showNotesPopup(id);
+            });
+        });
+    }
+
+    // Update total debt display
+    function updateTotalDebt() {
+        const total = debts.reduce((sum, debt) => sum + debt.amount, 0);
+        totalDebtElement.textContent = `Total: £${total.toFixed(2)}`;
+    }
+
+    // Update debt amount
+    function updateDebtAmount(id, newAmount) {
+        const debt = debts.find(d => d.id === id);
+        if (debt) {
+            debt.amount = parseFloat(newAmount);
+            saveDebtsToLocalStorage();
+            renderDebtCards();
+            updateTotalDebt();
+            showNotification(`Updated ${debt.name} to £${newAmount.toFixed(2)}`, 'success');
         }
     }
-    
-    return nextDate.toLocaleDateString();
-}
 
-// Process regular increments
-function processRegularIncrements() {
-    const now = new Date();
-    let updated = false;
-    
-    debts.forEach(debt => {
-        if (debt.regularIncrement && debt.regularIncrement.enabled) {
-            const startDate = new Date(debt.regularIncrement.startDate || debt.regularIncrement.lastIncrement || new Date());
-            let nextIncrement = new Date(startDate);
+    // Render debt list in settings
+    function renderDebtList() {
+        debtList.innerHTML = '';
+        
+        if (debts.length === 0) {
+            debtList.innerHTML = '<p>No debts configured yet.</p>';
+            return;
+        }
+        
+        debts.forEach(debt => {
+            const debtItem = document.createElement('div');
+            debtItem.className = 'debt-item';
             
-            // Find the next increment date that hasn't passed yet
-            while (nextIncrement <= now) {
-                // Apply the increment
-                debt.amount += debt.regularIncrement.amount;
-                debt.regularIncrement.lastIncrement = nextIncrement.toISOString();
+            const hasIncrement = debt.regularIncrement && debt.regularIncrement.enabled;
+            const incrementFieldsDisplay = hasIncrement ? 'flex' : 'none';
+            const incrementChecked = hasIncrement ? 'checked' : '';
+            const startDate = debt.regularIncrement?.startDate || new Date().toISOString().split('T')[0];
+            
+            debtItem.innerHTML = `
+                <div class="debt-display">
+                    <div class="debt-info">
+                        <strong>${debt.name}</strong>
+                        <div class="debt-amount-controls">
+                            <span class="amount-label">Amount: £</span>
+                            <input type="number" class="amount-input" value="${debt.amount.toFixed(2)}" step="0.01" data-id="${debt.id}">
+                            <button class="icon-btn update-btn" data-id="${debt.id}" title="Update Amount">🔄</button>
+                        </div>
+                        <div class="debt-meta">
+                            <span class="debt-source">${debt.source === 'manual' ? 'Manual' : 'Automated'}</span>
+                            ${debt.source === 'auto' ? `<span class="debt-url">${debt.login_url || 'No URL'}</span>` : ''}
+                            ${hasIncrement ? `<span class="increment-indicator" style="margin: 0;">+£${debt.regularIncrement.amount} ${debt.regularIncrement.frequency}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="debt-actions">
+                        <button class="icon-btn edit-btn-icon" data-id="${debt.id}" title="Edit Debt">✏️</button>
+                        <button class="icon-btn delete-btn-icon" data-id="${debt.id}" title="Delete Debt">🗑️</button>
+                    </div>
+                </div>
+                <div class="debt-edit-form" id="edit-form-${debt.id}" style="display: none;">
+                    <div class="edit-form-content">
+                        <h4>Edit ${debt.name}</h4>
+                        <form class="edit-debt-form" data-id="${debt.id}">
+                            <div class="form-group">
+                                <label for="edit-name-${debt.id}">Debt Name</label>
+                                <input type="text" id="edit-name-${debt.id}" value="${debt.name}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Data Source</label>
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="edit-auto-${debt.id}" name="edit-dataSource-${debt.id}" value="auto" ${debt.source === 'auto' ? 'checked' : ''}>
+                                        <label for="edit-auto-${debt.id}">Automated (Selenium)</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="edit-manual-${debt.id}" name="edit-dataSource-${debt.id}" value="manual" ${debt.source === 'manual' ? 'checked' : ''}>
+                                        <label for="edit-manual-${debt.id}">Manual Entry</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="edit-auto-fields" id="edit-auto-fields-${debt.id}" style="${debt.source === 'auto' ? '' : 'display: none;'}">
+                                <div class="form-group">
+                                    <label for="edit-loginUrl-${debt.id}">Login URL</label>
+                                    <input type="text" id="edit-loginUrl-${debt.id}" value="${debt.login_url || ''}">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="edit-username-${debt.id}">Username</label>
+                                    <input type="text" id="edit-username-${debt.id}" value="${debt.username || ''}">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="edit-password-${debt.id}">Password</label>
+                                    <input type="password" id="edit-password-${debt.id}" value="" placeholder="Enter new password">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group edit-manual-amount" id="edit-manual-fields-${debt.id}" style="${debt.source === 'manual' ? '' : 'display: none;'}">
+                                <label for="edit-amount-${debt.id}">Amount (£)</label>
+                                <input type="number" id="edit-amount-${debt.id}" value="${debt.amount}" step="0.01" class="no-spinner">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-directLink-${debt.id}">Direct Link</label>
+                                <input type="text" id="edit-directLink-${debt.id}" value="${debt.direct_link || ''}" placeholder="https://...">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-notes-${debt.id}">Notes</label>
+                                <textarea id="edit-notes-${debt.id}" rows="3">${debt.notes || ''}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-cardColor-${debt.id}">Card Color</label>
+                                <input type="color" id="edit-cardColor-${debt.id}" value="${debt.cardColor || '#ffffff'}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-titleColor-${debt.id}">Title Color</label>
+                                <input type="color" id="edit-titleColor-${debt.id}" value="${debt.titleColor || '#2c3e50'}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-logoImage-${debt.id}">Logo Image</label>
+                                <input type="file" id="edit-logoImage-${debt.id}" accept="image/*">
+                                ${debt.logoImage ? '<small style="color: var(--success-color);">Current image loaded</small>' : ''}
+                            </div>
+
+                            <!-- Regular Increment Section -->
+                            <div class="regular-increment-section">
+                                <div class="increment-toggle">
+                                    <input type="checkbox" id="edit-regularIncrement-${debt.id}" ${incrementChecked}>
+                                    <label for="edit-regularIncrement-${debt.id}">Enable Regular Amount Increment</label>
+                                </div>
+                                <div class="increment-fields ${hasIncrement ? 'active' : ''}" id="edit-increment-fields-${debt.id}">
+                                    <div class="increment-field">
+                                        <label for="edit-incrementAmount-${debt.id}">Increment Amount (£)</label>
+                                        <input type="number" id="edit-incrementAmount-${debt.id}" class="increment-amount-input" value="${hasIncrement ? debt.regularIncrement.amount : '0'}" step="0.01" min="0">
+                                    </div>
+                                    <div class="increment-field">
+                                        <label for="edit-incrementFrequency-${debt.id}">Frequency</label>
+                                        <select id="edit-incrementFrequency-${debt.id}" class="increment-frequency-select">
+                                            <option value="weekly" ${hasIncrement && debt.regularIncrement.frequency === 'weekly' ? 'selected' : ''}>Weekly</option>
+                                            <option value="fortnightly" ${hasIncrement && debt.regularIncrement.frequency === 'fortnightly' ? 'selected' : ''}>Fortnightly</option>
+                                            <option value="triweekly" ${hasIncrement && debt.regularIncrement.frequency === 'triweekly' ? 'selected' : ''}>Tri-weekly</option>
+                                            <option value="monthly" ${hasIncrement && debt.regularIncrement.frequency === 'monthly' ? 'selected' : ''}>Monthly</option>
+                                        </select>
+                                    </div>
+                                    <div class="increment-field full-width">
+                                        <label for="edit-incrementStartDate-${debt.id}">Start Date</label>
+                                        <input type="date" id="edit-incrementStartDate-${debt.id}" class="increment-date-input" value="${startDate}">
+                                    </div>
+                                </div>
+                                ${hasIncrement ? `
+                                    <div class="increment-preview">
+                                        Next increment: <span class="next-increment">${calculateNextIncrement(debt)}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-secondary cancel-edit-btn" data-id="${debt.id}">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            debtList.appendChild(debtItem);
+        });
+        
+        // Add event listeners
+        document.querySelectorAll('.update-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = parseInt(this.getAttribute('data-id'));
+                const input = document.querySelector(`.amount-input[data-id="${id}"]`);
+                const newAmount = parseFloat(input.value) || 0;
+                if (newAmount >= 0) {
+                    updateDebtAmount(id, newAmount);
+                } else {
+                    showNotification('Amount cannot be negative', 'error');
+                }
+            });
+        });
+        
+        document.querySelectorAll('.edit-btn-icon').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = parseInt(this.getAttribute('data-id'));
+                toggleEditForm(id);
+            });
+        });
+        
+        document.querySelectorAll('.cancel-edit-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = parseInt(this.getAttribute('data-id'));
+                toggleEditForm(id, false);
+            });
+        });
+        
+        document.querySelectorAll('.edit-debt-form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const id = parseInt(this.getAttribute('data-id'));
+                saveDebtChanges(id);
+            });
+        });
+        
+        document.querySelectorAll('input[name^="edit-dataSource-"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const id = this.id.split('-')[2];
+                toggleEditDataSource(id);
+            });
+        });
+        
+        document.querySelectorAll('.delete-btn-icon').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = parseInt(this.getAttribute('data-id'));
+                deleteDebt(id);
+            });
+        });
+        
+        // Add immediate toggle for increment fields
+        document.querySelectorAll('.increment-toggle input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const id = this.id.split('-')[3];
+                const incrementFields = document.getElementById(`edit-increment-fields-${id}`);
+                if (this.checked) {
+                    incrementFields.classList.add('active');
+                } else {
+                    incrementFields.classList.remove('active');
+                }
+            });
+        });
+    }
+
+    // Calculate next increment date
+    function calculateNextIncrement(debt) {
+        if (!debt.regularIncrement || !debt.regularIncrement.enabled) return null;
+        
+        const startDate = new Date(debt.regularIncrement.startDate || debt.regularIncrement.lastIncrement || new Date());
+        const now = new Date();
+        let nextDate = new Date(startDate);
+        
+        // If we have a last increment date, start from there
+        if (debt.regularIncrement.lastIncrement) {
+            nextDate = new Date(debt.regularIncrement.lastIncrement);
+        }
+        
+        // Find the next increment date that hasn't passed yet
+        while (nextDate <= now) {
+            switch (debt.regularIncrement.frequency) {
+                case 'weekly':
+                    nextDate.setDate(nextDate.getDate() + 7);
+                    break;
+                case 'fortnightly':
+                    nextDate.setDate(nextDate.getDate() + 14);
+                    break;
+                case 'triweekly':
+                    nextDate.setDate(nextDate.getDate() + 21);
+                    break;
+                case 'monthly':
+                    nextDate.setMonth(nextDate.getMonth() + 1);
+                    break;
+            }
+        }
+        
+        return nextDate.toLocaleDateString();
+    }
+
+    // Process regular increments
+    function processRegularIncrements() {
+        const now = new Date();
+        let updated = false;
+        
+        debts.forEach(debt => {
+            if (debt.regularIncrement && debt.regularIncrement.enabled && debt.regularIncrement.amount > 0) {
+                const lastIncrement = debt.regularIncrement.lastIncrement ? 
+                    new Date(debt.regularIncrement.lastIncrement) : 
+                    new Date(debt.regularIncrement.startDate || new Date());
                 
-                // Calculate next increment
+                let nextIncrement = new Date(lastIncrement);
+                
+                // Calculate the next valid increment date
                 switch (debt.regularIncrement.frequency) {
                     case 'weekly':
                         nextIncrement.setDate(nextIncrement.getDate() + 7);
@@ -1491,105 +1399,216 @@ function processRegularIncrements() {
                         nextIncrement.setMonth(nextIncrement.getMonth() + 1);
                         break;
                 }
-                updated = true;
+                
+                // If the next increment date has passed, apply the increment
+                if (nextIncrement <= now) {
+                    debt.amount += debt.regularIncrement.amount;
+                    debt.regularIncrement.lastIncrement = nextIncrement.toISOString();
+                    updated = true;
+                    
+                    showNotification(`Auto-incremented ${debt.name} by £${debt.regularIncrement.amount}`, 'info');
+                }
             }
+        });
+        
+        if (updated) {
+            saveDebtsToLocalStorage();
+            renderDebtCards();
+            updateTotalDebt();
+            lastRefreshTime = new Date();
+            updateRefreshInfo();
         }
-    });
-    
-    if (updated) {
+        
+        return updated;
+    }
+
+    // Save debt changes
+    function saveDebtChanges(id) {
+        const debt = debts.find(d => d.id === id);
+        if (!debt) return;
+        
+        const newName = document.getElementById(`edit-name-${id}`).value;
+        const newDataSource = document.querySelector(`input[name="edit-dataSource-${id}"]:checked`).value;
+        const newAmount = parseFloat(document.getElementById(`edit-amount-${id}`).value) || 0;
+        const newNotes = document.getElementById(`edit-notes-${id}`).value;
+        const newDirectLink = document.getElementById(`edit-directLink-${id}`).value;
+        const logoFileInput = document.getElementById(`edit-logoImage-${id}`);
+        const logoFile = logoFileInput.files[0];
+        const regularIncrementEnabled = document.getElementById(`edit-regularIncrement-${id}`).checked;
+        const incrementAmount = parseFloat(document.getElementById(`edit-incrementAmount-${id}`).value) || 0;
+        const incrementFrequency = document.getElementById(`edit-incrementFrequency-${id}`).value;
+        const incrementStartDate = document.getElementById(`edit-incrementStartDate-${id}`).value;
+        
+        if (newAmount < 0) {
+            showNotification('Amount cannot be negative', 'error');
+            return;
+        }
+        
+        debt.name = newName;
+        debt.source = newDataSource;
+        debt.amount = newAmount;
+        debt.notes = newNotes;
+        debt.direct_link = newDirectLink;
+        debt.cardColor = document.getElementById(`edit-cardColor-${id}`).value;
+        debt.titleColor = document.getElementById(`edit-titleColor-${id}`).value;
+        
+        debt.regularIncrement = {
+            enabled: regularIncrementEnabled,
+            amount: incrementAmount,
+            frequency: incrementFrequency,
+            startDate: incrementStartDate,
+            lastIncrement: debt.regularIncrement?.lastIncrement || null
+        };
+        
+        if (logoFile) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                debt.logoImage = e.target.result;
+                completeSaveDebtChanges(debt, newDataSource, id);
+            };
+            reader.readAsDataURL(logoFile);
+        } else {
+            completeSaveDebtChanges(debt, newDataSource, id);
+        }
+    }
+
+    function completeSaveDebtChanges(debt, newDataSource, id) {
+        if (newDataSource === 'auto') {
+            debt.login_url = document.getElementById(`edit-loginUrl-${id}`).value;
+            debt.username = document.getElementById(`edit-username-${id}`).value;
+            const newPassword = document.getElementById(`edit-password-${id}`).value;
+            if (newPassword) {
+                debt.password = newPassword;
+            }
+        } else {
+            debt.login_url = '';
+            debt.username = '';
+            debt.password = '';
+        }
+        
         saveDebtsToLocalStorage();
         renderDebtCards();
         updateTotalDebt();
+        renderDebtList();
+        toggleEditForm(id, false);
+        showNotification(`Updated ${debt.name} successfully`, 'success');
     }
-}
 
-// Save debt changes
-function saveDebtChanges(id) {
-    const debt = debts.find(d => d.id === id);
-    if (!debt) return;
-    
-    const newName = document.getElementById(`edit-name-${id}`).value;
-    const newDataSource = document.querySelector(`input[name="edit-dataSource-${id}"]:checked`).value;
-    const newAmount = parseFloat(document.getElementById(`edit-amount-${id}`).value) || 0;
-    const newNotes = document.getElementById(`edit-notes-${id}`).value;
-    const newDirectLink = document.getElementById(`edit-directLink-${id}`).value;
-    const logoFile = document.getElementById(`edit-logoImage-${id}`).files[0];
-    const regularIncrementEnabled = document.getElementById(`edit-regularIncrement-${id}`).checked;
-    const incrementAmount = parseFloat(document.getElementById(`edit-incrementAmount-${id}`).value) || 0;
-    const incrementFrequency = document.getElementById(`edit-incrementFrequency-${id}`).value;
-    const incrementStartDate = document.getElementById(`edit-incrementStartDate-${id}`).value;
-    
-    debt.name = newName;
-    debt.source = newDataSource;
-    debt.amount = newAmount;
-    debt.notes = newNotes;
-    debt.direct_link = newDirectLink;
-    debt.cardColor = document.getElementById(`edit-cardColor-${id}`).value;
-    debt.titleColor = document.getElementById(`edit-titleColor-${id}`).value;
-    
-    debt.regularIncrement = {
-        enabled: regularIncrementEnabled,
-        amount: incrementAmount,
-        frequency: incrementFrequency,
-        startDate: incrementStartDate,
-        lastIncrement: debt.regularIncrement?.lastIncrement || null
-    };
-    
-    if (logoFile) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            debt.logoImage = e.target.result;
-            completeSaveDebtChanges(debt, newDataSource, id);
-        };
-        reader.readAsDataURL(logoFile);
-    } else {
-        completeSaveDebtChanges(debt, newDataSource, id);
-    }
-}
-
-function completeSaveDebtChanges(debt, newDataSource, id) {
-    if (newDataSource === 'auto') {
-        debt.login_url = document.getElementById(`edit-loginUrl-${id}`).value;
-        debt.username = document.getElementById(`edit-username-${id}`).value;
-        const newPassword = document.getElementById(`edit-password-${id}`).value;
-        if (newPassword) {
-            debt.password = newPassword;
+    // Save to localStorage (secondary)
+    function saveDebtsToLocalStorage() {
+        try {
+            localStorage.setItem('debtDashboard', JSON.stringify(debts));
+            return true;
+        } catch (e) {
+            console.error('Error saving to localStorage:', e);
+            showNotification('Error saving data to browser storage', 'error');
+            return false;
         }
-    } else {
-        debt.login_url = '';
-        debt.username = '';
-        debt.password = '';
     }
-    
-    saveDebtsToLocalStorage();
-    renderDebtCards();
-    updateTotalDebt();
-    renderDebtList();
-    showRefreshNotification(`Updated ${debt.name} successfully`);
-}
 
-// Save to localStorage (secondary)
-function saveDebtsToLocalStorage() {
-    localStorage.setItem('debtDashboard', JSON.stringify(debts));
-}
-
-// Load from localStorage (fallback)
-function loadDebtsFromLocalStorage() {
-    const saved = localStorage.getItem('debtDashboard');
-    if (saved) {
-        return JSON.parse(saved);
+    // Load from localStorage (fallback)
+    function loadDebtsFromLocalStorage() {
+        try {
+            const saved = localStorage.getItem('debtDashboard');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+        } catch (e) {
+            console.error('Error loading from localStorage:', e);
+        }
+        
+        // Return default demo data if nothing is saved
+        return [
+            { 
+                id: 1, 
+                name: "Octopus Energy", 
+                amount: 1000.00, 
+                source: "manual", 
+                notes: "Monthly: £75", 
+                direct_link: "https://octopus.energy", 
+                cardColor: "#ffffff", 
+                titleColor: "#2c3e50", 
+                logoImage: "",
+                regularIncrement: {
+                    enabled: false,
+                    amount: 0,
+                    frequency: 'weekly',
+                    startDate: new Date().toISOString().split('T')[0],
+                    lastIncrement: null
+                }
+            }
+        ];
     }
-    return [
-        { 
-            id: 1, 
-            name: "Octopus Energy", 
-            amount: 1000.00, 
-            source: "manual", 
-            notes: "Monthly: £75", 
-            direct_link: "https://example.com", 
-            cardColor: "#ffffff", 
-            titleColor: "#2c3e50", 
-            logoImage: "",
+
+    // Delete debt
+    function deleteDebt(id) {
+        const debt = debts.find(d => d.id === id);
+        if (debt && confirm(`Are you sure you want to delete "${debt.name}"?`)) {
+            debts = debts.filter(d => d.id !== id);
+            saveDebtsToLocalStorage();
+            renderDebtCards();
+            updateTotalDebt();
+            renderDebtList();
+            showNotification(`Deleted ${debt.name}`, 'success');
+        }
+    }
+
+    // Show notes popup
+    function showNotesPopup(id) {
+        const debt = debts.find(d => d.id === id);
+        if (debt && debt.notes) {
+            notesTitle.textContent = `Notes: ${debt.name}`;
+            notesContent.textContent = debt.notes;
+            notesPopup.style.display = 'block';
+            notesOverlay.style.display = 'block';
+        }
+    }
+
+    // Toggle data source in add form
+    function toggleDataSource() {
+        if (autoSource.checked) {
+            autoFields.style.display = 'block';
+            manualFields.style.display = 'none';
+        } else {
+            autoFields.style.display = 'none';
+            manualFields.style.display = 'block';
+        }
+    }
+
+    // Add new debt
+    function addDebt(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('debtName').value.trim();
+        const source = document.querySelector('input[name="dataSource"]:checked').value;
+        const amount = parseFloat(document.getElementById('amount').value) || 0;
+        const notes = document.getElementById('notes').value.trim();
+        const directLink = document.getElementById('directLink').value.trim();
+        const cardColor = document.getElementById('cardColor').value;
+        const titleColor = document.getElementById('titleColor').value;
+        const logoInput = document.getElementById('logoImage');
+        const logoFile = logoInput.files[0];
+        
+        if (!name) {
+            showNotification('Debt name is required', 'error');
+            return;
+        }
+        
+        if (amount < 0) {
+            showNotification('Amount cannot be negative', 'error');
+            return;
+        }
+        
+        const newDebt = {
+            id: Date.now(),
+            name,
+            amount,
+            source,
+            notes,
+            direct_link: directLink,
+            cardColor,
+            titleColor,
+            logoImage: '',
             regularIncrement: {
                 enabled: false,
                 amount: 0,
@@ -1597,102 +1616,178 @@ function loadDebtsFromLocalStorage() {
                 startDate: new Date().toISOString().split('T')[0],
                 lastIncrement: null
             }
+        };
+        
+        if (source === 'auto') {
+            newDebt.login_url = document.getElementById('loginUrl').value.trim();
+            newDebt.username = document.getElementById('username').value.trim();
+            newDebt.password = document.getElementById('password').value;
+            
+            if (!newDebt.login_url || !newDebt.username || !newDebt.password) {
+                showNotification('Login URL, username and password are required for automated debts', 'error');
+                return;
+            }
         }
-    ];
-}
-
-// Delete debt
-function deleteDebt(id) {
-    if (confirm('Are you sure you want to delete this debt?')) {
-        debts = debts.filter(debt => debt.id !== id);
+        
+        if (logoFile) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                newDebt.logoImage = e.target.result;
+                completeAddDebt(newDebt);
+            };
+            reader.readAsDataURL(logoFile);
+        } else {
+            completeAddDebt(newDebt);
+        }
+    }
+    
+    function completeAddDebt(newDebt) {
+        debts.push(newDebt);
         saveDebtsToLocalStorage();
         renderDebtCards();
         updateTotalDebt();
         renderDebtList();
-    }
-}
-
-// Show notes popup (keep existing implementation)
-function showNotesPopup(id) {
-    // ... keep your existing showNotesPopup function
-}
-
-// Toggle data source (keep existing implementation)
-function toggleDataSource() {
-    // ... keep your existing toggleDataSource function
-}
-
-// Add new debt (keep existing implementation)
-function addDebt(event) {
-    // ... keep your existing addDebt function, but ensure it includes:
-    // regularIncrement: { enabled: false, amount: 0, frequency: 'weekly', startDate: new Date().toISOString().split('T')[0], lastIncrement: null }
-}
-
-// Reset form (keep existing implementation)
-function resetForm() {
-    // ... keep your existing resetForm function
-}
-
-// Toggle edit form (keep existing implementation)
-function toggleEditForm(id, show = true) {
-    // ... keep your existing toggleEditForm function
-}
-
-// Toggle edit data source (keep existing implementation)
-function toggleEditDataSource(id) {
-    // ... keep your existing toggleEditDataSource function
-}
-
-// Show refresh notification (keep existing implementation)
-function showRefreshNotification(message) {
-    // ... keep your existing showRefreshNotification function
-}
-
-// Auto-refresh functionality (keep existing implementation)
-function startAutoRefresh() {
-    // ... keep your existing startAutoRefresh function
-}
-
-// Event Listeners
-settingsBtn.addEventListener('click', () => {
-    settingsModal.style.display = 'flex';
-});
-
-closeModal.addEventListener('click', () => {
-    settingsModal.style.display = 'none';
-});
-
-cancelBtn.addEventListener('click', () => {
-    settingsModal.style.display = 'none';
-});
-
-debtForm.addEventListener('submit', addDebt);
-
-autoSource.addEventListener('change', toggleDataSource);
-manualSource.addEventListener('change', toggleDataSource);
-
-// Export/Import event listeners
-exportBtn.addEventListener('click', saveDataToJSON);
-importBtn.addEventListener('click', () => importFile.click());
-importFile.addEventListener('change', (e) => {
-    if (e.target.files[0]) {
-        importDataFromJSON(e.target.files[0]);
-        e.target.value = ''; // Reset file input
-    }
-});
-
-window.addEventListener('click', (event) => {
-    if (event.target === settingsModal) {
+        resetForm();
         settingsModal.style.display = 'none';
+        showNotification(`Added ${newDebt.name} successfully`, 'success');
     }
-});
 
-// Initialize the dashboard
-document.addEventListener('DOMContentLoaded', initDashboard);
+    // Reset form
+    function resetForm() {
+        debtForm.reset();
+        document.getElementById('cardColor').value = '#ffffff';
+        document.getElementById('titleColor').value = '#2c3e50';
+        autoFields.style.display = 'block';
+        manualFields.style.display = 'none';
+    }
 
-// Process increments every hour
-setInterval(processRegularIncrements, 60 * 60 * 1000);
+    // Toggle edit form
+    function toggleEditForm(id, show = true) {
+        const editForm = document.getElementById(`edit-form-${id}`);
+        if (show) {
+            // Hide any other open edit forms
+            document.querySelectorAll('.debt-edit-form').forEach(form => {
+                form.style.display = 'none';
+            });
+            editForm.style.display = 'block';
+        } else {
+            editForm.style.display = 'none';
+        }
+    }
+
+    // Toggle edit data source
+    function toggleEditDataSource(id) {
+        const autoFields = document.getElementById(`edit-auto-fields-${id}`);
+        const manualFields = document.getElementById(`edit-manual-fields-${id}`);
+        const isAuto = document.getElementById(`edit-auto-${id}`).checked;
+        
+        if (isAuto) {
+            autoFields.style.display = 'block';
+            manualFields.style.display = 'none';
+        } else {
+            autoFields.style.display = 'none';
+            manualFields.style.display = 'block';
+        }
+    }
+
+    // Show notification
+    function showNotification(message, type = 'success') {
+        notification.textContent = message;
+        notification.className = `notification ${type} show`;
+        
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
+
+    // Update refresh info
+    function updateRefreshInfo() {
+        if (lastRefreshTime) {
+            lastRefreshTimeElement.textContent = lastRefreshTime.toLocaleString();
+            
+            // Calculate next refresh (1 hour from last refresh)
+            const nextRefresh = new Date(lastRefreshTime.getTime() + 60 * 60 * 1000);
+            nextRefreshTimeElement.textContent = nextRefresh.toLocaleString();
+            
+            refreshInfo.style.display = 'block';
+        }
+    }
+
+    // Auto-refresh functionality
+    function startAutoRefresh() {
+        // Clear any existing interval
+        if (autoRefreshInterval) {
+            clearInterval(autoRefreshInterval);
+        }
+        
+        // Set initial refresh time
+        lastRefreshTime = new Date();
+        updateRefreshInfo();
+        
+        // Check for increments every hour
+        autoRefreshInterval = setInterval(() => {
+            const updated = processRegularIncrements();
+            if (updated) {
+                lastRefreshTime = new Date();
+                updateRefreshInfo();
+            }
+        }, 60 * 60 * 1000); // 1 hour
+    }
+
+    // Event Listeners
+    settingsBtn.addEventListener('click', () => {
+        settingsModal.style.display = 'flex';
+    });
+
+    closeModal.addEventListener('click', () => {
+        settingsModal.style.display = 'none';
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        settingsModal.style.display = 'none';
+        resetForm();
+    });
+
+    debtForm.addEventListener('submit', addDebt);
+
+    autoSource.addEventListener('change', toggleDataSource);
+    manualSource.addEventListener('change', toggleDataSource);
+
+    // Export/Import event listeners
+    exportBtn.addEventListener('click', saveDataToJSON);
+    importBtn.addEventListener('click', () => importFile.click());
+    importFile.addEventListener('change', (e) => {
+        if (e.target.files[0]) {
+            importDataFromJSON(e.target.files[0]);
+            e.target.value = ''; // Reset file input
+        }
+    });
+
+    // Notes popup close
+    closeNotes.addEventListener('click', () => {
+        notesPopup.style.display = 'none';
+        notesOverlay.style.display = 'none';
+    });
+
+    notesOverlay.addEventListener('click', () => {
+        notesPopup.style.display = 'none';
+        notesOverlay.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === settingsModal) {
+            settingsModal.style.display = 'none';
+            resetForm();
+        }
+    });
+
+    // Initialize the dashboard
+    document.addEventListener('DOMContentLoaded', initDashboard);
+
+    // Process increments every hour (backup)
+    setInterval(() => {
+        processRegularIncrements();
+    }, 60 * 60 * 1000);
 </script>
-
 </body>
 </html>
