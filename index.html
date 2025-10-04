@@ -965,38 +965,81 @@ input[type="number"]::-webkit-inner-spin-button {
     const closeNotes = document.getElementById('closeNotes');
     const notification = document.getElementById('notification');
 
-    // Initialize the dashboard
-    function initDashboard() {
-        loadDataFromJSON(); // Try to load from JSON first
-        if (debts.length === 0) {
-            debts = loadDebtsFromLocalStorage(); // Fallback to localStorage
+  // Initialize the dashboard with hierarchical data loading
+async function initDashboard() {
+    console.log("🚀 Starting dashboard initialization...");
+    showNotification('Loading dashboard data...', 'info');
+    
+    // Try to load from JSON file first
+    console.log("📂 Step 1: Attempting to load from JSON file...");
+    const jsonLoaded = await loadDataFromJSON();
+    
+    if (jsonLoaded) {
+        console.log("✅ JSON load successful, skipping localStorage");
+        showNotification('Data loaded from JSON file successfully!', 'success');
+    } else {
+        console.log("❌ JSON load failed, trying localStorage...");
+        // If JSON fails, try localStorage
+        const localStorageLoaded = loadDataFromLocalStorage();
+        
+        if (localStorageLoaded) {
+            console.log("✅ localStorage load successful");
+            showNotification('Data loaded from browser storage successfully!', 'success');
+        } else {
+            // If both fail, inform user and set up empty state
+            console.log("❌ Both JSON and localStorage failed, using empty state");
+            showNotification('No existing data found. Please add your first debt using the Settings button.', 'info');
+            debts = []; // Ensure debts is empty array
         }
-        renderDebtCards();
-        updateTotalDebt();
-        renderDebtList();
-        processRegularIncrements();
-        startAutoRefresh();
-        showNotification('Dashboard loaded successfully!', 'success');
     }
+    
+    console.log("🎯 Final debts array:", debts);
+    console.log("🎯 Debts count:", debts.length);
+    
+    // Always render the dashboard (will show empty state if no data)
+    renderDebtCards();
+    updateTotalDebt();
+    renderDebtList();
+    processRegularIncrements();
+    startAutoRefresh();
+}
 
-    // Load data from JSON file (primary storage)
-    async function loadDataFromJSON() {
-        try {
-            const response = await fetch('debts.json');
-            if (response.ok) {
-                const data = await response.json();
-                if (data && Array.isArray(data.debts)) {
-                    debts = data.debts;
-                    console.log('Data loaded from JSON file');
-                    return true;
-                }
+   // Load data from JSON file (primary storage)
+async function loadDataFromJSON() {
+    try {
+        console.log('🔍 STEP 1: Attempting to fetch debts_export.json...');
+        const response = await fetch('debts_export.json');
+        
+        console.log('📊 STEP 2: Response received - Status:', response.status, 'OK:', response.ok);
+        
+        if (response.ok) {
+            console.log('📦 STEP 3: Response OK, parsing JSON...');
+            const data = await response.json();
+            console.log('📦 STEP 4: JSON parsed successfully, data structure:', data);
+            
+            if (data && Array.isArray(data.debts)) {
+                console.log('✅ STEP 5: Valid debts array found, length:', data.debts.length);
+                debts = data.debts;
+                console.log('🎉 SUCCESS: Data loaded from JSON file with', debts.length, 'debts');
+                return true;
+            } else {
+                console.warn('❌ STEP 5: Invalid format - data:', data);
+                console.warn('❌ Data exists but missing debts array or invalid structure');
+                return false;
             }
-        } catch (error) {
-            console.log('No JSON file found, using localStorage');
+        } else if (response.status === 404) {
+            console.log('❌ STEP 3: File not found (404) - debts_export.json does not exist');
+            return false;
+        } else {
+            console.warn('❌ STEP 3: HTTP Error - Status:', response.status, 'Text:', response.statusText);
+            return false;
         }
+    } catch (error) {
+        console.log('❌ STEP 2: Fetch failed with error:', error.message);
+        console.log('❌ Error details:', error);
         return false;
     }
-
+}
     // Save data to JSON file
     async function saveDataToJSON() {
         const data = {
@@ -1047,9 +1090,26 @@ input[type="number"]::-webkit-inner-spin-button {
         debtDashboard.innerHTML = '';
         
         if (debts.length === 0) {
-            debtDashboard.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; padding: 40px; color: var(--text-light);">No debts configured yet. Click Settings to add your first debt.</p>';
-            return;
-        }
+        debtDashboard.innerHTML = `
+            <div style="text-align: center; grid-column: 1 / -1; padding: 60px 20px; color: var(--text-light);">
+                <div style="font-size: 3rem; margin-bottom: 20px;">💳</div>
+                <h3 style="margin-bottom: 15px; color: var(--secondary-color);">No Debts Found</h3>
+                <p style="margin-bottom: 25px; max-width: 400px; margin-left: auto; margin-right: auto;">
+                    No debt data was found in JSON file or browser storage.
+                </p>
+                <p style="font-size: 0.9rem; margin-bottom: 30px;">
+                    Click the <strong>Settings</strong> button below to add your first debt.
+                </p>
+                <button class="settings-btn" onclick="document.getElementById('settingsBtn').click()" 
+                        style="background-color: var(--primary-color); color: white; border: none; 
+                               padding: 12px 24px; border-radius: 5px; cursor: pointer; 
+                               font-size: 1rem; transition: background-color 0.3s ease;">
+                    Add Your First Debt
+                </button>
+            </div>
+        `;
+        return;
+    }
         
         debts.forEach(debt => {
             const debtCard = document.createElement('div');
@@ -1107,6 +1167,9 @@ input[type="number"]::-webkit-inner-spin-button {
     function updateTotalDebt() {
         const total = debts.reduce((sum, debt) => sum + debt.amount, 0);
         totalDebtElement.textContent = `Total: £${total.toFixed(2)}`;
+
+        // Update document title with total debt
+    document.title = `Debt Dashboard - £${total.toFixed(2)}`;
     }
 
     // Update debt amount
@@ -1506,39 +1569,29 @@ input[type="number"]::-webkit-inner-spin-button {
         }
     }
 
-    // Load from localStorage (fallback)
-    function loadDebtsFromLocalStorage() {
-        try {
-            const saved = localStorage.getItem('debtDashboard');
-            if (saved) {
-                return JSON.parse(saved);
+    // Load data from localStorage (secondary storage)
+function loadDataFromLocalStorage() {
+    try {
+        const saved = localStorage.getItem('debtDashboard');
+        if (saved) {
+            const parsedData = JSON.parse(saved);
+            if (Array.isArray(parsedData) && parsedData.length > 0) {
+                debts = parsedData;
+                console.log('Data successfully loaded from localStorage:', debts.length, 'debts found');
+                return true;
+            } else {
+                console.warn('LocalStorage data exists but is empty or invalid');
+                return false;
             }
-        } catch (e) {
-            console.error('Error loading from localStorage:', e);
+        } else {
+            console.log('No data found in localStorage');
+            return false;
         }
-        
-        // Return default demo data if nothing is saved
-        return [
-            { 
-                id: 1, 
-                name: "Octopus Energy", 
-                amount: 1000.00, 
-                source: "manual", 
-                notes: "Monthly: £75", 
-                direct_link: "https://octopus.energy", 
-                cardColor: "#ffffff", 
-                titleColor: "#2c3e50", 
-                logoImage: "",
-                regularIncrement: {
-                    enabled: false,
-                    amount: 0,
-                    frequency: 'weekly',
-                    startDate: new Date().toISOString().split('T')[0],
-                    lastIncrement: null
-                }
-            }
-        ];
+    } catch (error) {
+        console.error('Error loading from localStorage:', error);
+        return false;
     }
+}
 
     // Delete debt
     function deleteDebt(id) {
@@ -1697,7 +1750,7 @@ input[type="number"]::-webkit-inner-spin-button {
         
         setTimeout(() => {
             notification.classList.remove('show');
-        }, 3000);
+        }, 5000);
     }
 
     // Update refresh info
